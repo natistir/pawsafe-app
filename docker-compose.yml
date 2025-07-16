@@ -1,0 +1,37 @@
+version: '3.8'
+
+services:
+  react-native-dev:
+    build: .
+    ports:
+      - "8081:8081"   # Metro bundler
+      - "19000:19000" # Expo dev server
+      - "19001:19001" # Expo dev server websocket
+      - "19002:19002" # Expo dev server tunnel
+    volumes:
+      - .:/app
+      - /app/node_modules
+      - ~/.ssh:/root/.ssh:ro  # For Git operations (if needed)
+    environment:
+      - NODE_ENV=development
+      - REACT_NATIVE_PACKAGER_HOSTNAME=0.0.0.0
+      - EXPO_DEVTOOLS_LISTEN_ADDRESS=0.0.0.0
+    stdin_open: true
+    tty: true
+    working_dir: /app
+    command: bash
+
+  # Optional: Database service for future user data
+  # postgres:
+  #   image: postgres:15
+  #   environment:
+  #     POSTGRES_DB: pawsafe
+  #     POSTGRES_USER: pawsafe_user
+  #     POSTGRES_PASSWORD: pawsafe_pass
+  #   ports:
+  #     - "5432:5432"
+  #   volumes:
+  #     - postgres_data:/var/lib/postgresql/data
+
+# volumes:
+#   postgres_data:
