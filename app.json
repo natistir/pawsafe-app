@@ -2,7 +2,7 @@
   "expo": {
     "name": "PawSafe",
     "slug": "pawsafe-app",
-    "version": "1.0.0",
+    "version": "1.1",
     "orientation": "portrait",
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
@@ -17,7 +17,7 @@
     "ios": {
       "supportsTablet": false,
       "bundleIdentifier": "dashplus.PawSafe",
-      "buildNumber": "3",
+      "buildNumber": "1.1",
       "icon": "./assets/icon.png",
       "infoPlist": {
         "CFBundleIconName": "AppIcon",
@@ -27,7 +27,7 @@
     },
     "android": {
       "package": "dashplus.pawsafe",
-      "versionCode": 3,
+      "versionCode": 11,
       "icon": "./assets/icon.png",
       "permissions": [
         "android.permission.ACCESS_COARSE_LOCATION",
