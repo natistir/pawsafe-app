@@ -93,10 +93,17 @@ export type RootStackParamList = {
     longitude?: number; 
     zipCode?: string;
   };
+  Weather: { 
+    latitude?: number; 
+    longitude?: number; 
+    zipCode?: string;
+  };
   Settings: undefined;
 };
 
 export type HomeScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Home'>;
 export type LocationScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Location'>;
 export type LocationScreenRouteProp = RouteProp<RootStackParamList, 'Location'>;
+export type WeatherScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Weather'>;
+export type WeatherScreenRouteProp = RouteProp<RootStackParamList, 'Weather'>;
 export type SettingsScreenNavigationProp = StackNavigationProp<RootStackParamList, 'Settings'>;
