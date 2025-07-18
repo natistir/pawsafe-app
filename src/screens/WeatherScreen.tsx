@@ -14,7 +14,7 @@ import {
 } from 'react-native-paper';
 import * as Location from 'expo-location';
 
-import AppleWatchTemperatureDial from '../components/AppleWatchTemperatureDial';
+import SmartTemperatureDial from '../components/SmartTemperatureDial';
 import { WeatherService } from '../services/WeatherService';
 import { 
   WeatherScreenNavigationProp, 
@@ -161,8 +161,8 @@ const WeatherScreen: React.FC<Props> = ({ navigation, route }) => {
     >
       {weatherData ? (
         <>
-          {/* Apple Watch Style Temperature Dial */}
-          <AppleWatchTemperatureDial
+          {/* Smart Temperature Dial Widget */}
+          <SmartTemperatureDial
             temperature={weatherData.surfaceTemp}
             temperatureF={weatherData.surfaceTempF}
             unit={temperatureUnit}

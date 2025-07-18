@@ -4,7 +4,7 @@ import { Text, Button } from 'react-native-paper';
 import Svg, { Circle, Defs, LinearGradient, Stop } from 'react-native-svg';
 import * as Location from 'expo-location';
 
-interface AppleWatchTemperatureDialProps {
+interface SmartTemperatureDialProps {
   temperature: number;
   temperatureF: number;
   unit: 'celsius' | 'fahrenheit';
@@ -24,7 +24,7 @@ const CENTER = DIAL_SIZE / 2;
 const RADIUS = CENTER - 30;
 const STROKE_WIDTH = 12;
 
-const AppleWatchTemperatureDial: React.FC<AppleWatchTemperatureDialProps> = ({
+const SmartTemperatureDial: React.FC<SmartTemperatureDialProps> = ({
   temperature,
   temperatureF,
   unit,
@@ -380,4 +380,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default AppleWatchTemperatureDial;
+export default SmartTemperatureDial;
