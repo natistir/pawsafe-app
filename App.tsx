@@ -8,12 +8,18 @@ import { StatusBar } from 'expo-status-bar';
 // Import screens
 import HomeScreen from './src/screens/HomeScreen';
 import LocationScreen from './src/screens/LocationScreen';
+import WeatherScreen from './src/screens/WeatherScreen';
 import SettingsScreen from './src/screens/SettingsScreen';
 
 // Navigation types
 export type RootStackParamList = {
   Home: undefined;
   Location: { 
+    latitude?: number; 
+    longitude?: number; 
+    zipCode?: string 
+  };
+  Weather: { 
     latitude?: number; 
     longitude?: number; 
     zipCode?: string 
@@ -69,6 +75,14 @@ export default function App() {
               component={LocationScreen} 
               options={{ 
                 title: '🌡️ Surface Temperature',
+                headerBackTitle: 'Back'
+              }}
+            />
+            <Stack.Screen 
+              name="Weather" 
+              component={WeatherScreen} 
+              options={{ 
+                title: '⌚ Apple Watch Weather',
                 headerBackTitle: 'Back'
               }}
             />
