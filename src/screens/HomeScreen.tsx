@@ -89,6 +89,33 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
     }
   };
 
+  const getCurrentLocationForWeather = async () => {
+    if (!locationPermission) {
+      await requestLocationPermission();
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const location = await Location.getCurrentPositionAsync({
+        accuracy: Location.Accuracy.Balanced,
+      });
+      
+      navigation.navigate('Weather', {
+        latitude: location.coords.latitude,
+        longitude: location.coords.longitude,
+      });
+    } catch (error) {
+      console.error('Error getting current location:', error);
+      Alert.alert(
+        'Location Error',
+        'Unable to get your current location. Please try again or enter a zip code.'
+      );
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const checkZipCode = () => {
     if (zipCode.trim().length < 5) {
       Alert.alert('Invalid Zip Code', 'Please enter a valid 5-digit zip code');
@@ -137,15 +164,27 @@ const HomeScreen: React.FC<Props> = ({ navigation }) => {
         <Card.Content>
           <Title style={styles.actionTitle}>Check Surface Temperature</Title>
           
+          {/* NEW: Apple Watch Style Weather */}
           <Button
             mode="contained"
+            onPress={getCurrentLocationForWeather}
+            loading={loading}
+            disabled={loading}
+            style={[styles.locationButton, styles.appleWatchButton]}
+            icon="watch"
+          >
+            ⌚ Apple Watch Style Weather
+          </Button>
+
+          <Button
+            mode="outlined"
             onPress={getCurrentLocation}
             loading={loading}
             disabled={loading}
             style={styles.locationButton}
             icon="crosshairs-gps"
           >
-            Use Current Location
+            Use Current Location (Original)
           </Button>
 
           <View style={styles.divider}>
@@ -251,8 +290,12 @@ const styles = StyleSheet.create({
     color: '#2E7D32',
   },
   locationButton: {
-    marginBottom: 16,
+    marginBottom: 12,
     paddingVertical: 8,
+  },
+  appleWatchButton: {
+    backgroundColor: '#007AFF',
+    marginBottom: 16,
   },
   divider: {
     alignItems: 'center',
