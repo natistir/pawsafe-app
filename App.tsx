@@ -82,7 +82,7 @@ export default function App() {
               name="Weather" 
               component={WeatherScreen} 
               options={{ 
-                title: '⌚ Apple Watch Weather',
+                title: '🌡️ Temperature Check',
                 headerBackTitle: 'Back'
               }}
             />
