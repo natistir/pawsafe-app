@@ -7,7 +7,7 @@
     "icon": "./assets/icon.png",
     "userInterfaceStyle": "light",
     "splash": {
-      "image": "./assets/splash.png",
+      "image": "./assets/icon.png",
       "resizeMode": "contain",
       "backgroundColor": "#4CAF50"
     },
@@ -16,32 +16,33 @@
     ],
     "ios": {
       "supportsTablet": false,
-      "bundleIdentifier": "com.yourcompany.pawsafe",
-      "buildNumber": "1.0.0",
+      "bundleIdentifier": "dashplus.PawSafe",
+      "buildNumber": "2",
+      "icon": "./assets/icon.png",
       "infoPlist": {
-        "NSLocationWhenInUseUsageDescription": "PawSafe needs location access to check surface temperature in your area for safe dog walking.",
-        "NSLocationAlwaysUsageDescription": "PawSafe needs location access to check surface temperature in your area for safe dog walking."
+        "CFBundleIconName": "AppIcon",
+        "NSLocationWhenInUseUsageDescription": "PawSafe needs location access to check surface temperature for safe dog walking.",
+        "NSLocationAlwaysAndWhenInUseUsageDescription": "PawSafe needs location access to check surface temperature for safe dog walking."
       }
     },
     "android": {
-      "adaptiveIcon": {
-        "foregroundImage": "./assets/adaptive-icon.png",
-        "backgroundColor": "#4CAF50"
-      },
-      "package": "com.yourcompany.pawsafe",
-      "versionCode": 1,
+      "package": "dashplus.pawsafe",
+      "versionCode": 2,
+      "icon": "./assets/icon.png",
       "permissions": [
-        "ACCESS_FINE_LOCATION",
-        "ACCESS_COARSE_LOCATION"
+        "android.permission.ACCESS_COARSE_LOCATION",
+        "android.permission.ACCESS_FINE_LOCATION",
+        "android.permission.FOREGROUND_SERVICE"
       ]
-    },
-    "web": {
-      "favicon": "./assets/favicon.png"
     },
     "plugins": [
       "expo-location"
     ],
     "scheme": "pawsafe",
-    "privacy": "public"
+    "extra": {
+      "eas": {
+        "projectId": "142c6392-f3b5-4480-acc6-254c58d36369"
+      }
+    }
   }
 }

@@ -1,82 +1,113 @@
 import axios, { AxiosInstance } from 'axios';
-import { API_CONFIG } from '../config/env';
-import { WeatherApiResponse } from '../types';
+
+export interface OpenWeatherResponse {
+  main: {
+    temp: number;
+    feels_like: number;
+    humidity: number;
+  };
+  weather: [
+    {
+      main: string;
+      description: string;
+      icon: string;
+    }
+  ];
+  wind: {
+    speed: number;
+  };
+  clouds: {
+    all: number;
+  };
+  dt: number;
+  name: string;
+}
 
 export class WeatherService {
   private api: AxiosInstance;
+  private apiKey: string;
 
   constructor() {
+    // Replace with your OpenWeather API key
+    this.apiKey = '92c7312cf5954f1e7e3252bf3e62fa0b';
+    
     this.api = axios.create({
-      baseURL: API_CONFIG.WEATHER_API_BASE_URL,
-      timeout: API_CONFIG.DEFAULTS.TIMEOUT,
-      params: {
-        key: API_CONFIG.WEATHER_API_KEY,
-      },
+      baseURL: 'https://api.openweathermap.org/data/2.5',
+      timeout: 10000,
     });
   }
 
-  /**
-   * Get current weather data for a location
-   * @param query - Location query (lat,lon or zip code or city name)
-   * @returns Weather data from the API
-   */
-  async getWeatherData(query: string): Promise<WeatherApiResponse> {
+  async getWeatherByCoords(lat: number, lon: number): Promise<OpenWeatherResponse> {
     try {
-      const response = await this.api.get(API_CONFIG.ENDPOINTS.CURRENT_WEATHER, {
+      const response = await this.api.get('/weather', {
         params: {
-          q: query,
-          aqi: 'no', // We don't need air quality data
+          lat,
+          lon,
+          appid: this.apiKey,
+          units: 'metric', // Use Celsius
         },
       });
-
       return response.data;
     } catch (error) {
       console.error('Weather API Error:', error);
-      throw new Error('Failed to fetch weather data. Please check your internet connection and try again.');
+      throw new Error('Failed to fetch weather data');
     }
   }
 
-  /**
-   * Search for locations
-   * @param query - Search query
-   * @returns Array of matching locations
-   */
-  async searchLocations(query: string) {
+  async getWeatherByZipCode(zipCode: string): Promise<OpenWeatherResponse> {
     try {
-      const response = await this.api.get(API_CONFIG.ENDPOINTS.SEARCH, {
+      const response = await this.api.get('/weather', {
         params: {
-          q: query,
+          zip: `${zipCode},US`,
+          appid: this.apiKey,
+          units: 'metric',
         },
       });
-
       return response.data;
     } catch (error) {
-      console.error('Location Search Error:', error);
-      throw new Error('Failed to search locations.');
+      console.error('Weather API Error:', error);
+      throw new Error('Failed to fetch weather data');
     }
   }
 
-  /**
-   * Get weather forecast
-   * @param query - Location query
-   * @param days - Number of days (1-10)
-   * @returns Forecast data
-   */
-  async getForecast(query: string, days: number = 1) {
-    try {
-      const response = await this.api.get(API_CONFIG.ENDPOINTS.FORECAST, {
-        params: {
-          q: query,
-          days: Math.min(Math.max(days, 1), 10), // Ensure days is between 1-10
-          aqi: 'no',
-          alerts: 'yes',
-        },
-      });
-
-      return response.data;
-    } catch (error) {
-      console.error('Forecast API Error:', error);
-      throw new Error('Failed to fetch weather forecast.');
+  calculateSurfaceTemperature(airTemp: number, humidity: number, windSpeed: number, cloudCover: number): {
+    surfaceTemp: number;
+    surfaceTempF: number;
+    riskLevel: string;
+    recommendation: string;
+  } {
+    // Surface temperature calculation for asphalt
+    let surfaceTemp = airTemp;
+    
+    // Add heat based on conditions
+    surfaceTemp += 15; // Base asphalt heating
+    surfaceTemp += (100 - humidity) * 0.1; // Lower humidity = hotter
+    surfaceTemp -= windSpeed * 0.5; // Wind cooling effect
+    surfaceTemp -= cloudCover * 0.15; // Cloud cooling effect
+    
+    const surfaceTempF = (surfaceTemp * 9/5) + 32;
+    
+    let riskLevel = 'safe';
+    let recommendation = 'Safe for walking!';
+    
+    if (surfaceTemp > 43) {
+      riskLevel = 'caution';
+      recommendation = 'Use caution - consider dog booties';
     }
+    if (surfaceTemp > 49) {
+      riskLevel = 'dangerous';
+      recommendation = 'Dangerous! Avoid hot surfaces';
+    }
+    if (surfaceTemp > 60) {
+      riskLevel = 'extreme';
+      recommendation = 'EXTREME DANGER - Stay indoors!';
+    }
+    
+    return {
+      surfaceTemp: Math.round(surfaceTemp * 10) / 10,
+      surfaceTempF: Math.round(surfaceTempF * 10) / 10,
+      riskLevel,
+      recommendation,
+    };
   }
 }

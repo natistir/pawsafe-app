@@ -1,0 +1,38 @@
+{
+  "expo": {
+    "name": "PawSafe",
+    "slug": "pawsafe-app",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "userInterfaceStyle": "light",
+    "splash": {
+      "resizeMode": "contain",
+      "backgroundColor": "#4CAF50"
+    },
+    "assetBundlePatterns": [
+      "**/*"
+    ],
+    "ios": {
+      "supportsTablet": false,
+      "bundleIdentifier": "com.yourcompany.pawsafe",
+      "buildNumber": "1.0.0",
+      "infoPlist": {
+        "NSLocationWhenInUseUsageDescription": "PawSafe needs location access to check surface temperature in your area for safe dog walking.",
+        "NSLocationAlwaysUsageDescription": "PawSafe needs location access to check surface temperature in your area for safe dog walking."
+      }
+    },
+    "android": {
+      "package": "com.yourcompany.pawsafe",
+      "versionCode": 1,
+      "permissions": [
+        "ACCESS_FINE_LOCATION",
+        "ACCESS_COARSE_LOCATION"
+      ]
+    },
+    "plugins": [
+      "expo-location"
+    ],
+    "scheme": "pawsafe",
+    "privacy": "public"
+  }
+}
