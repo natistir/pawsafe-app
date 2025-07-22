@@ -29,16 +29,18 @@ export type RootStackParamList = {
 
 const Stack = createStackNavigator<RootStackParamList>();
 
-// Custom theme for the app
+// Updated theme with SafePaws colors
 const theme = {
   ...DefaultTheme,
   colors: {
     ...DefaultTheme.colors,
-    primary: '#4CAF50',
-    accent: '#FF9800',
-    background: '#F5F5F5',
+    primary: '#3B82F6',
+    accent: '#EC4899',
+    background: '#F0F9FF',
     surface: '#FFFFFF',
-    error: '#F44336',
+    error: '#EF4444',
+    text: '#111827',
+    placeholder: '#6B7280',
   },
 };
 
@@ -50,53 +52,44 @@ export default function App() {
           <Stack.Navigator 
             initialRouteName="Home"
             screenOptions={{
-              headerStyle: {
-                backgroundColor: theme.colors.primary,
-              },
-              headerTintColor: '#fff',
-              headerTitleStyle: {
-                fontWeight: 'bold',
+              headerShown: false, // Hide headers since we have custom navigation
+              gestureEnabled: true,
+              gestureDirection: 'horizontal',
+              cardStyleInterpolator: ({ current, layouts }) => {
+                return {
+                  cardStyle: {
+                    transform: [
+                      {
+                        translateX: current.progress.interpolate({
+                          inputRange: [0, 1],
+                          outputRange: [layouts.screen.width, 0],
+                        }),
+                      },
+                    ],
+                  },
+                };
               },
             }}
           >
             <Stack.Screen 
               name="Home" 
               component={HomeScreen} 
-              options={{ 
-                title: '🐕 PawSafe',
-                headerTitleStyle: {
-                  fontSize: 20,
-                  fontWeight: 'bold',
-                }
-              }}
             />
             <Stack.Screen 
               name="Location" 
               component={LocationScreen} 
-              options={{ 
-                title: '🌡️ Surface Temperature',
-                headerBackTitle: 'Back'
-              }}
             />
             <Stack.Screen 
               name="Weather" 
               component={WeatherScreen} 
-              options={{ 
-                title: '🌡️ Temperature Check',
-                headerBackTitle: 'Back'
-              }}
             />
             <Stack.Screen 
               name="Settings" 
               component={SettingsScreen} 
-              options={{ 
-                title: '⚙️ Settings',
-                headerBackTitle: 'Back'
-              }}
             />
           </Stack.Navigator>
         </NavigationContainer>
-        <StatusBar style="light" backgroundColor={theme.colors.primary} />
+        <StatusBar style="dark" backgroundColor="#F0F9FF" />
       </PaperProvider>
     </SafeAreaProvider>
   );
