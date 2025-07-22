@@ -2,11 +2,13 @@ import React, { useState, useRef } from 'react';
 import {
   View,
   Text,
-  PanGestureHandler,
-  State,
   StyleSheet,
   Dimensions,
 } from 'react-native';
+import {
+  PanGestureHandler,
+  State,
+} from 'react-native-gesture-handler';
 import Svg, {
   Circle,
   Path,
@@ -17,7 +19,6 @@ import Svg, {
   FeGaussianBlur,
   FeMerge,
   FeMergeNode,
-  Text as SvgText,
 } from 'react-native-svg';
 import { LinearGradient as RNLinearGradient } from 'expo-linear-gradient';
 import { Ionicons } from '@expo/vector-icons';
